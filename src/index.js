@@ -1,17 +1,64 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useState } from "react";
+import ReactDom from "react-dom";
+import { ThemeProvider } from "styled-components";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import { GlobalStyle, darkTheme, defaultTheme } from "./utils";
+import {
+    PrimaryButton,
+    SecondaryButton,
+    TertiaryButton,
+} from "./components/Buttons";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export const App = () => {
+    const [useDarkTheme, setUseDarkTheme] = useState(false);
+    return (
+        <ThemeProvider theme={useDarkTheme ? darkTheme : defaultTheme}>
+            <button
+                style={{
+                    margin: "0 16px 24px",
+                    padding: "8px",
+                    background: "none",
+                    cursor: "pointer",
+                    border: "2px solid #000",
+                    marginTop: "60px",
+                }}
+                onClick={() => setUseDarkTheme(true)}
+            >
+                Dark theme
+            </button>
+            <button
+                style={{
+                    margin: "0 16px 24px",
+                    padding: "8px",
+                    background: "none",
+                    cursor: "pointer",
+                    border: "2px solid #000",
+                    marginTop: "60px",
+                }}
+                onClick={() => setUseDarkTheme(false)}
+            >
+                Default theme
+            </button>
+
+            <div
+                style={{
+                    background: useDarkTheme
+                        ? defaultTheme.primaryColor
+                        : darkTheme.primaryColor,
+                    width: "100vw",
+                    height: "90vh",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                }}
+            >
+                <GlobalStyle />
+                <PrimaryButton>Primary Button</PrimaryButton>
+                <SecondaryButton>Secondary Button</SecondaryButton>
+                <TertiaryButton>Tertiary Button</TertiaryButton>
+            </div>
+        </ThemeProvider>
+    );
+};
+
+ReactDom.render(<App />, document.querySelector("#root"));
